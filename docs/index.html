@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileGrid - Modern High-Performance File Manager for Windows</title>
+    <meta name="description" content="FileGrid is a modern, high-performance multi-pane file manager for Windows 11 built with WinUI 3. Features multi-pane grids, inline visual diff, deep theme customization, extensible plugin engine, zero telemetry, and pure local speed.">
+    <style>
+        :root {
+            --bg-color: #0b0d12;
+            --surface: #12161f;
+            --surface-hover: #171d28;
+            --card-bg: #141822;
+            --card-border: #232b3b;
+            --text-primary: #f0f4f8;
+            --text-secondary: #8b99ad;
+            --text-muted: #5e6b7d;
+            --accent: #3b82f6;
+            --accent-hover: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.15);
+            --tag-bg: rgba(59, 130, 246, 0.1);
+            --tag-border: rgba(59, 130, 246, 0.25);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-color: #f8fafc;
+                --surface: #ffffff;
+                --surface-hover: #f1f5f9;
+                --card-bg: #ffffff;
+                --card-border: #e2e8f0;
+                --text-primary: #0f172a;
+                --text-secondary: #475569;
+                --text-muted: #94a3b8;
+                --accent: #2563eb;
+                --accent-hover: #1d4ed8;
+                --accent-glow: rgba(37, 99, 235, 0.08);
+                --tag-bg: rgba(37, 99, 235, 0.08);
+                --tag-border: rgba(37, 99, 235, 0.2);
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Nav */
+        header.site-header {
+            padding: 24px 0;
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            background: rgba(11, 13, 18, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+        }
+        @media (prefers-color-scheme: light) {
+            header.site-header {
+                background: rgba(248, 250, 252, 0.85);
+            }
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: -0.01em;
+        }
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.15s ease;
+        }
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--tag-bg);
+            border: 1px solid var(--tag-border);
+            color: var(--accent);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-size: clamp(38px, 6vw, 64px);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, var(--text-primary) 30%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p.lead {
+            font-size: clamp(16px, 2.2vw, 20px);
+            color: var(--text-secondary);
+            max-width: 760px;
+            margin: 0 auto 36px;
+            line-height: 1.6;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 26px;
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background-color: var(--accent);
+            color: #ffffff;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
+        }
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background-color: var(--surface);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+        }
+        .btn-secondary:hover {
+            background-color: var(--surface-hover);
+            border-color: var(--accent);
+        }
+
+        /* Mockup / Image Placeholders */
+        .preview-wrapper {
+            margin: 0 auto 80px;
+            max-width: 980px;
+        }
+        .preview-frame {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        .preview-header {
+            background: var(--surface);
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .win-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--card-border);
+        }
+        .preview-title {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: 8px;
+            font-family: monospace;
+        }
+        .preview-placeholder {
+            min-height: 440px;
+            background: linear-gradient(145deg, rgba(20, 24, 34, 0.95), rgba(15, 18, 26, 0.95));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+            border: 2px dashed rgba(59, 130, 246, 0.2);
+            margin: 16px;
+            border-radius: var(--radius-md);
+            position: relative;
+        }
+        @media (prefers-color-scheme: light) {
+            .preview-placeholder {
+                background: linear-gradient(145deg, #f8fafc, #edf2f7);
+            }
+        }
+        .placeholder-icon {
+            margin-bottom: 16px;
+            color: var(--accent);
+            opacity: 0.85;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .placeholder-text {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .placeholder-hint {
+            font-size: 13px;
+            color: var(--text-muted);
+            max-width: 500px;
+        }
+
+        /* Pillars (3 Grid) */
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .section-tag {
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+        .section-title {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+        .section-desc {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 80px;
+        }
+        .pillar-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 32px 28px;
+            transition: all 0.2s ease;
+        }
+        .pillar-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .pillar-icon {
+            margin-bottom: 20px;
+            display: inline-flex;
+            color: var(--accent);
+        }
+        .pillar-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .pillar-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Features Detail Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 80px;
+        }
+        .feature-item {
+            background: var(--surface);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+        }
+        .feature-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-sm);
+            background: var(--tag-bg);
+            border: 1px solid var(--tag-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--accent);
+        }
+        .feature-content h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .feature-content p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Showcase Row (Theme & Plugins) */
+        .showcase-section {
+            margin-bottom: 90px;
+        }
+        .showcase-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+        @media (max-width: 860px) {
+            .showcase-row {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+        }
+        .showcase-row.reverse {
+            direction: rtl;
+        }
+        .showcase-row.reverse .showcase-text {
+            direction: ltr;
+        }
+        .showcase-row.reverse .preview-frame {
+            direction: ltr;
+        }
+        .showcase-text h3 {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.01em;
+        }
+        .showcase-text p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .feature-checklist {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+        .feature-checklist li {
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .feature-checklist li strong {
+            color: var(--text-primary);
+        }
+        .check-badge {
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        /* Plugin Badge Pills */
+        .plugin-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .plugin-pill {
+            background: var(--tag-bg);
+            border: 1px solid var(--tag-border);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Footer */
+        footer.site-footer {
+            border-top: 1px solid var(--card-border);
+            padding: 50px 0 40px;
+            margin-top: 80px;
+            background: var(--surface);
+        }
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header class="site-header">
+        <div class="container nav-inner">
+            <a href="index.html" class="brand">
+                <img src="logo.svg" width="34" height="34" alt="FileGrid Logo" style="display:block;">
+                <span>FileGrid</span>
+            </a>
+            <nav class="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#themes" class="nav-link">Pearl Themes</a>
+                <a href="#plugins" class="nav-link">Plugins &amp; SDK</a>
+                <a href="privacy.html" class="nav-link">Privacy Policy</a>
+                <a href="https://github.com/Volt-craft/FileGrid/issues" target="_blank" rel="noopener" class="nav-link">Support</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="badge-pill">
+                <span>✦</span> Commercial License &bull; Windows App SDK &bull; WinUI 3
+            </div>
+            <h1>The Modern Power-User<br>File Manager for Windows</h1>
+            <p class="lead">
+                Built from the ground up for extreme speed, multi-pane precision, and total privacy. 
+                Experience instant directory indexing, inline diff comparison, custom HSL themes, and an extensible plugin sandbox.
+            </p>
+            <div class="hero-actions">
+                <a href="https://apps.microsoft.com/" class="btn btn-primary" target="_blank" rel="noopener">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    Get FileGrid on Microsoft Store
+                </a>
+                <a href="privacy.html" class="btn btn-secondary">
+                    View Privacy Policy
+                </a>
+                <a href="https://github.com/Volt-craft/FileGrid/issues" target="_blank" rel="noopener" class="btn btn-secondary">
+                    Report Issue / Feedback
+                </a>
+            </div>
+
+            <!-- Hero Image / Screenshot Placeholder -->
+            <div class="preview-wrapper">
+                <div class="preview-frame">
+                    <div class="preview-header">
+                        <div class="win-dot" style="background:#ff5f56;"></div>
+                        <div class="win-dot" style="background:#ffbd2e;"></div>
+                        <div class="win-dot" style="background:#27c93f;"></div>
+                        <span class="preview-title">FileGrid - Multi-Pane Workspace [Screenshot Preview]</span>
+                    </div>
+                    <!-- Image slot: Replace with <img> when ready -->
+                    <div class="preview-placeholder">
+                        <div class="placeholder-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                        </div>
+                        <div class="placeholder-text">[ App Screenshot - Multi-Pane Grid View ]</div>
+                        <p class="placeholder-hint">Dual-pane directory browsing, instant folder search, staging basket, and native dark Pearl design system.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3 Core Pillars -->
+    <section class="container">
+        <div class="pillars-grid">
+            <div class="pillar-card">
+                <div class="pillar-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                </div>
+                <h3>Pure Native Speed</h3>
+                <p>Engineered with zero-allocation pooling, non-blocking asynchronous I/O, and native Windows Shell COM boundaries. Instant directory opening with zero lag.</p>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                </div>
+                <h3>100% Local &amp; Private</h3>
+                <p>Zero telemetry, zero behavioral analytics, and zero external trackers. Your file hierarchy, metadata, and thumbnails never leave your device.</p>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect><line x1="6" y1="8" x2="6.01" y2="8"></line><line x1="10" y1="8" x2="10.01" y2="8"></line><line x1="14" y1="8" x2="14.01" y2="8"></line><line x1="18" y1="8" x2="18.01" y2="8"></line><line x1="8" y1="12" x2="8.01" y2="12"></line><line x1="12" y1="12" x2="12.01" y2="12"></line><line x1="16" y1="12" x2="16.01" y2="12"></line><line x1="7" y1="16" x2="17" y2="16"></line></svg>
+                </div>
+                <h3>Power-User Ergonomics</h3>
+                <p>Designed for rapid keyboard navigation, hotkey pane splitting, instant inline filtering, batch staging, and seamless cross-pane drag-and-drop.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- All Core Features Section -->
+    <section id="features" class="container" style="padding-top: 40px;">
+        <div class="section-header">
+            <div class="section-tag">Feature Suite</div>
+            <h2 class="section-title">Engineered for Complete Control</h2>
+            <p class="section-desc">Everything power users and developers need to conquer complex directory workflows in one cohesive workspace.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="18" rx="1"></rect><rect x="14" y="3" width="7" height="18" rx="1"></rect></svg>
+                </div>
+                <div class="feature-content">
+                    <h4>Multi-Pane &amp; Split Grids</h4>
+                    <p>Open dual, triple, or 4-pane layouts side-by-side. Jump between paths instantaneously with dedicated session history per pane.</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="20" y2="20"></line><line x1="6" y1="9" x2="6" y2="15"></line></svg>
+                </div>
+                <div class="feature-content">
+                    <h4>Inline Visual Diff</h4>
+                    <p>Compare two files or entire directory trees visually. Color-coded side-by-side difference inspector spots modified, added, or deleted files instantly.</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line></svg>
+                </div>
+                <div class="feature-content">
+                    <h4>Staging Basket</h4>
+                    <p>Collect files from different folders into a temporary staging tray before batch renaming, copying, moving, or compressing them in one operation.</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                </div>
+                <div class="feature-content">
+                    <h4>Kinematic Instant Filter</h4>
+                    <p>Filter tens of thousands of files in milliseconds. Instant regex, wildcard, and extension filters narrow your focus without lag.</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </div>
+                <div class="feature-content">
+                    <h4>QuickLook &amp; Media Preview</h4>
+                    <p>Native in-app peek for images, audio, video, code, and documents without locking file handles or spawning external viewers.</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </div>
+                <div class="feature-content">
+                    <h4>Native Windows Shell Interop</h4>
+                    <p>Full support for Windows context menus, native file properties dialogs, Jump Lists, cloud synchronization badges, and shortcut resolves.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Theme & Pearl Design System Section -->
+    <section id="themes" class="container showcase-section">
+        <div class="showcase-row">
+            <div class="showcase-text">
+                <div class="section-tag">Pearl Design System</div>
+                <h3>Crafted for Visual Comfort &amp; Personal Style</h3>
+                <p>
+                    FileGrid embraces the Pearl Design System—a high-contrast, neutral anti-glare UI engineered specifically to eliminate eye strain during marathon work sessions.
+                </p>
+                <ul class="feature-checklist">
+                    <li><span class="check-badge">&#10003;</span> <strong>Mica &amp; Acrylic Material:</strong> Native Windows 11 translucency and backdrop depth.</li>
+                    <li><span class="check-badge">&#10003;</span> <strong>Real-Time HSL Color Customizer:</strong> Built-in hue, saturation, and lightness picker to tailor accent colors precisely to your setup.</li>
+                    <li><span class="check-badge">&#10003;</span> <strong>Dark, Light &amp; High-Contrast:</strong> Seamless theme adaptation with zero flickering or layout redraw pauses.</li>
+                    <li><span class="check-badge">&#10003;</span> <strong>Compact 24px Density:</strong> Maximum screen real-estate utilization with pixel-aligned controls.</li>
+                </ul>
+            </div>
+            
+            <div class="preview-frame">
+                <div class="preview-header">
+                    <div class="win-dot"></div>
+                    <div class="win-dot"></div>
+                    <div class="win-dot"></div>
+                    <span class="preview-title">Settings &bull; Pearl Theme &amp; HSL Picker [Screenshot Preview]</span>
+                </div>
+                <!-- Image slot: Replace with <img> when ready -->
+                <div class="preview-placeholder" style="min-height: 320px;">
+                    <div class="placeholder-icon">
+                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg>
+                    </div>
+                    <div class="placeholder-text">[ Theme &amp; HSL Color Picker Preview ]</div>
+                    <p class="placeholder-hint">Real-time color tuning, Mica material backdrop, and customizable dark/light Pearl accents.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Extensible Plugin Ecosystem Section -->
+    <section id="plugins" class="container showcase-section">
+        <div class="showcase-row reverse">
+            <div class="showcase-text">
+                <div class="section-tag">Modular Architecture</div>
+                <h3>Extensible Plugins &amp; Developer SDK</h3>
+                <p>
+                    Customize FileGrid to suit your workflow with modular plugins, or write your own custom extensions in C# and WinUI 3 with our open developer SDK.
+                </p>
+
+                <div class="plugin-pills">
+                    <span class="plugin-pill">Checksum &amp; Hash Inspector</span>
+                    <span class="plugin-pill">Lossless Audio Player</span>
+                    <span class="plugin-pill">Native Video Player</span>
+                    <span class="plugin-pill">Media Downloader</span>
+                    <span class="plugin-pill">Batch File Tagger</span>
+                </div>
+
+                <ul class="feature-checklist">
+                    <li><span class="check-badge">&#10003;</span> <strong>InProcessUI &amp; Standalone:</strong> Embed seamless XAML controls or run isolated sandboxed processes.</li>
+                    <li><span class="check-badge">&#10003;</span> <strong>Crash Isolation:</strong> Guarded by Windows Job Objects and circuit-breaker patterns&mdash;plugins cannot crash the core app.</li>
+                    <li><span class="check-badge">&#10003;</span> <strong>Standard Package Format:</strong> Package your extension into a portable <code>.fgpkg</code> bundle with a single script.</li>
+                </ul>
+
+                <a href="PLUGIN_DEVELOPMENT.md" class="btn btn-secondary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    Read Plugin Development Guide (.fgpkg)
+                </a>
+            </div>
+
+            <div class="preview-frame">
+                <div class="preview-header">
+                    <div class="win-dot"></div>
+                    <div class="win-dot"></div>
+                    <div class="win-dot"></div>
+                    <span class="preview-title">FileGrid &bull; Plugin Manager &amp; Extensions [Screenshot Preview]</span>
+                </div>
+                <!-- Image slot: Replace with <img> when ready -->
+                <div class="preview-placeholder" style="min-height: 320px;">
+                    <div class="placeholder-icon">
+                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19.439 7.85c0-1.57-1.17-2.85-2.61-2.85h-1.66a2.825 2.825 0 0 0-2.82-2.5c-1.56 0-2.83 1.12-2.83 2.5H7.86C6.42 5 5.25 6.28 5.25 7.85v1.66c1.38 0 2.5 1.27 2.5 2.83s-1.12 2.83-2.5 2.83v1.66C5.25 18.4 6.42 19.68 7.86 19.68h1.66c0-1.38 1.27-2.5 2.83-2.5s2.83 1.12 2.83 2.5h1.66c1.44 0 2.61-1.28 2.61-2.85v-1.66c-1.38 0-2.5-1.27-2.5-2.83s1.12-2.83 2.5-2.83V7.85z"></path></svg>
+                    </div>
+                    <div class="placeholder-text">[ Plugin Ecosystem &amp; SDK Showcase ]</div>
+                    <p class="placeholder-hint">Dynamic plugin manager, hash calculators, media decoders, and custom .fgpkg packages.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Official Security & Distribution Notice -->
+    <section class="container" style="margin-bottom: 40px;">
+        <div style="background: var(--surface); border: 1px solid var(--card-border); border-radius: var(--radius-md); padding: 18px 24px; font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+            <strong style="color: var(--text-primary); display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                Official Distribution &amp; Security Notice
+            </strong>
+            FileGrid is distributed exclusively via the official Microsoft Store. The developer assumes zero liability for unofficial copies, packages, or third-party plugins obtained outside official releases. FileGrid is provided AS-IS without warranty, and users assume full responsibility for maintaining regular data backups.
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div>
+                <strong>FileGrid</strong> &bull; High-Performance File Manager for Windows
+                <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                    &copy; 2026 Volt-craft. Commercial Proprietary Software. All rights reserved.
+                </div>
+            </div>
+            <div class="footer-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="PLUGIN_DEVELOPMENT.md">Plugin SDK Guide</a>
+                <a href="EULA.txt" target="_blank">EULA</a>
+                <a href="THIRDPARTYNOTICES.txt" target="_blank">Third-Party Notices</a>
+                <a href="https://github.com/Volt-craft/FileGrid/issues" target="_blank" rel="noopener">Support &amp; Feedback</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

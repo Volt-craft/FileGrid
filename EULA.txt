@@ -1,0 +1,103 @@
+================================================================================
+FileGrid - End User License Agreement (EULA) & Terms of Service
+Copyright (c) 2026 Volt-craft. All rights reserved.
+================================================================================
+
+IMPORTANT — READ CAREFULLY BEFORE USING THIS SOFTWARE:
+This End User License Agreement ("EULA") is a legally binding agreement between you
+(an individual or single entity) and the developer ("Volt-craft", "Author", "we")
+for the FileGrid application, including executable binaries, code, assets, plugins,
+and documentation (collectively, "FileGrid" or the "Software").
+
+BY DOWNLOADING, INSTALLING, COPYING, OR USING FILEGRID, YOU AGREE TO BE BOUND BY
+THE TERMS OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT INSTALL OR USE FILEGRID.
+
+--------------------------------------------------------------------------------
+1. GRANT OF COMMERCIAL LICENSE
+--------------------------------------------------------------------------------
+FileGrid is commercial proprietary software. Upon authorized purchase or acquisition
+through the official Microsoft Store, you are granted a personal, non-exclusive,
+non-transferable, revocable license to install and run FileGrid in accordance with
+Microsoft Store terms and this Agreement. This license does not convey any ownership
+or title in the Software.
+
+--------------------------------------------------------------------------------
+2. EXCLUSIVE OFFICIAL DISTRIBUTION CHANNEL & NO LIABILITY FOR THIRD-PARTY COPIES
+--------------------------------------------------------------------------------
+FileGrid is distributed EXCLUSIVELY through the official Microsoft Store.
+The developer DOES NOT distribute, verify, or authorize FileGrid on third-party
+download portals, unofficial mirrors, peer-to-peer networks, or cracked archives.
+
+WARNING ON THIRD-PARTY COPIES:
+- Copies obtained outside the official Microsoft Store are unauthorized, unverified,
+  and may have been altered to inject malware, spyware, trojans, or ransomware.
+- Unofficial copies will NOT receive official security patches or automated updates.
+- THE DEVELOPER DISCLAIMS 100% OF ALL LIABILITY FOR ANY SECURITY BREACHES, DATA LOSS,
+  SYSTEM DAMAGE, OR MALWARE INFECTION RESULTING FROM COPIES OBTAINED OUTSIDE THE
+  OFFICIAL MICROSOFT STORE. ANY USER USING AN UNOFFICIAL COPY ASSUMES 100% OF THE RISK.
+
+--------------------------------------------------------------------------------
+3. INTELLECTUAL PROPERTY & RESTRICTIONS
+--------------------------------------------------------------------------------
+All title, copyrights, trademarks, algorithms, and intellectual property rights in
+FileGrid belong solely to Volt-craft.
+
+You agree NOT to:
+- Reverse engineer, decompile, disassemble, or attempt to derive the source code.
+- Modify, adapt, translate, patch, or create derivative works of FileGrid binaries.
+- Resell, rent, lease, sub-license, distribute, or bundle FileGrid for commercial gain.
+- Remove, alter, or obscure any proprietary copyright, EULA, or trademark notices.
+
+--------------------------------------------------------------------------------
+4. THIRD-PARTY PLUGINS & EXTENSIONS DISCLAIMER
+--------------------------------------------------------------------------------
+FileGrid provides an extensible architecture supporting modular plugins (.fgpkg).
+- Any plugin, script, or extension developed by a third party or sourced outside the
+  official FileGrid release is installed and executed entirely at your own risk.
+- The developer makes no representations, warranties, or endorsements regarding
+  the safety, stability, or performance of third-party plugins.
+- The developer assumes ZERO liability for file damage, memory leaks, data corruption,
+  or security vulnerabilities caused by third-party plugins or custom scripts.
+
+--------------------------------------------------------------------------------
+5. ABSOLUTE EXCLUSION OF DATA LOSS LIABILITY & WARRANTY (AS-IS)
+--------------------------------------------------------------------------------
+FILEGRID IS A POWER-USER FILE MANAGEMENT TOOL THAT DIRECTLY INTERACTS WITH YOUR
+FILE SYSTEM (INCLUDING MOVING, COPYING, RENAMING, AND DELETING FILES).
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW:
+- FILEGRID IS PROVIDED ON AN "AS-IS" AND "AS-AVAILABLE" BASIS, WITHOUT WARRANTY OF
+  ANY KIND, EITHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE.
+- THE DEVELOPER SPECIFICALLY DISCLAIMS ALL IMPLIED WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+- IN NO EVENT SHALL THE DEVELOPER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO:
+  * LOSS OF DATA, CORRUPTED FILES, OR UNRECOVERABLE DELETIONS.
+  * SYSTEM CRASHES, HARDWARE INSTABILITY, OR BUSINESS INTERRUPTION.
+  * LOSS OF PROFITS, COMMERCIAL REVENUE, OR CONFIDENTIAL INFORMATION.
+YOU ASSUME FULL RESPONSIBILITY FOR MAINTAINING REGULAR, INDEPENDENT BACKUPS OF ALL
+CRITICAL DATA PRIOR TO PERFORMING FILE OPERATIONS.
+
+--------------------------------------------------------------------------------
+6. HIGH-RISK ENVIRONMENT RESTRICTION
+--------------------------------------------------------------------------------
+FileGrid is not fault-tolerant and is not designed, manufactured, or intended for
+use in hazardous or critical environments requiring fail-safe performance (such as
+nuclear facilities, air traffic control, emergency communication, or medical life
+support systems). The developer strictly disclaims any liability for high-risk uses.
+
+--------------------------------------------------------------------------------
+7. BILLING, REFUNDS, AND STORE TERMS
+--------------------------------------------------------------------------------
+All licensing transactions, pricing, payments, local taxes, and refund requests are
+governed solely by the official Microsoft Store Terms of Sale. The developer does
+not store or process payment card information.
+
+--------------------------------------------------------------------------------
+8. TRADEMARK ACKNOWLEDGEMENT
+--------------------------------------------------------------------------------
+Windows, Windows 10, Windows 11, WinUI, Microsoft Store, and the Windows logo are
+trademarks or registered trademarks of Microsoft Corporation. FileGrid is an
+independent commercial application and is not affiliated with, endorsed by, or
+sponsored by Microsoft Corporation.
+================================================================================

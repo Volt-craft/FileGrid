@@ -1,0 +1,89 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Pearl Multi-angle Iridescent Gradient -->
+    <linearGradient id="pearlIridescent" x1="46" y1="52" x2="466" y2="466" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#EEDAC5" />
+      <stop offset="28%" stop-color="#F2C7C4" />
+      <stop offset="55%" stop-color="#D9B7D5" />
+      <stop offset="82%" stop-color="#9ADBE8" />
+      <stop offset="100%" stop-color="#BEE8DE" />
+    </linearGradient>
+
+    <!-- Pearl Specular Soft Sheen -->
+    <radialGradient id="pearlSpecular" cx="38%" cy="32%" r="62%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9" />
+      <stop offset="35%" stop-color="#FFF8F2" stop-opacity="0.6" />
+      <stop offset="65%" stop-color="#F2DFF2" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#80CEDD" stop-opacity="0.45" />
+    </radialGradient>
+
+    <!-- Subtle Edge Refinement -->
+    <linearGradient id="pearlEdge" x1="46" y1="52" x2="466" y2="466" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFDF9" stop-opacity="0.9" />
+      <stop offset="35%" stop-color="#FCD2CE" stop-opacity="0.7" />
+      <stop offset="70%" stop-color="#CFA3CC" stop-opacity="0.7" />
+      <stop offset="100%" stop-color="#73C6D6" stop-opacity="0.8" />
+    </linearGradient>
+
+    <!-- 2D Clean Soft Shadow for the Grid Panes to pop with crisp contrast -->
+    <filter id="crispShadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#4B3A54" flood-opacity="0.28" />
+    </filter>
+  </defs>
+
+  <!-- Folder Tab Silhouette (File Manager Indicator) -->
+  <!-- Tab at top-left: X=46 to X=196, Y=52. Body top: Y=92 -->
+  <path d="M 106 52 
+           L 182 52 
+           C 202 52, 214 66, 226 92 
+           L 410 92 
+           C 442 92, 466 116, 466 148 
+           L 466 410 
+           C 466 442, 442 466, 410 466 
+           L 102 466 
+           C 70 466, 46 442, 46 410 
+           L 46 112 
+           C 46 78, 72 52, 106 52 Z" 
+        fill="url(#pearlIridescent)" 
+        stroke="url(#pearlEdge)" 
+        stroke-width="3" />
+
+  <!-- Pearl Luster Sheen Layer -->
+  <path d="M 106 52 
+           L 182 52 
+           C 202 52, 214 66, 226 92 
+           L 410 92 
+           C 442 92, 466 116, 466 148 
+           L 466 410 
+           C 466 442, 442 466, 410 466 
+           L 102 466 
+           C 70 466, 46 442, 46 410 
+           L 46 112 
+           C 46 78, 72 52, 106 52 Z" 
+        fill="url(#pearlSpecular)" />
+
+  <!-- 4-Pane Framed Grid (Center of body: X=256, Y=279) -->
+  <!-- Top-Left Pane: (152, 175) to (236, 259) outer, (168, 191) to (220, 243) inner -->
+  <path fill-rule="evenodd" clip-rule="evenodd" 
+        d="M 160 175 C 151 175, 144 182, 144 191 L 144 253 C 144 262, 151 269, 160 269 L 222 269 C 231 269, 238 262, 238 253 L 238 191 C 238 182, 231 175, 222 175 L 160 175 Z 
+           M 170 197 C 167 197, 164 200, 164 203 L 164 241 C 164 244, 167 247, 170 247 L 212 247 C 215 247, 218 244, 218 241 L 218 203 C 218 200, 215 197, 212 197 L 170 197 Z" 
+        fill="#FFFFFF" filter="url(#crispShadow)" />
+
+  <!-- Top-Right Pane: (274, 175) to (358, 259) -->
+  <path fill-rule="evenodd" clip-rule="evenodd" 
+        d="M 284 175 C 275 175, 268 182, 268 191 L 268 253 C 268 262, 275 269, 284 269 L 346 269 C 355 269, 362 262, 362 253 L 362 191 C 362 182, 355 175, 346 175 L 284 175 Z 
+           M 294 197 C 291 197, 288 200, 288 203 L 288 241 C 288 244, 291 247, 294 247 L 336 247 C 339 247, 342 244, 342 241 L 342 203 C 342 200, 339 197, 336 197 L 294 197 Z" 
+        fill="#FFFFFF" filter="url(#crispShadow)" />
+
+  <!-- Bottom-Left Pane: (152, 297) to (236, 381) -->
+  <path fill-rule="evenodd" clip-rule="evenodd" 
+        d="M 160 297 C 151 297, 144 304, 144 313 L 144 375 C 144 384, 151 391, 160 391 L 222 391 C 231 391, 238 384, 238 375 L 238 313 C 238 304, 231 297, 222 297 L 160 297 Z 
+           M 170 319 C 167 319, 164 322, 164 325 L 164 363 C 164 366, 167 369, 170 369 L 212 369 C 215 369, 218 366, 218 363 L 218 325 C 218 322, 215 319, 212 319 L 170 319 Z" 
+        fill="#FFFFFF" filter="url(#crispShadow)" />
+
+  <!-- Bottom-Right Pane: (274, 297) to (358, 381) -->
+  <path fill-rule="evenodd" clip-rule="evenodd" 
+        d="M 284 297 C 275 297, 268 304, 268 313 L 268 375 C 268 384, 275 391, 284 391 L 346 391 C 355 391, 362 384, 362 375 L 362 313 C 362 304, 355 297, 346 297 L 284 297 Z 
+           M 294 319 C 291 319, 288 322, 288 325 L 288 363 C 288 366, 291 369, 294 369 L 336 369 C 339 369, 342 366, 342 363 L 342 325 C 342 322, 339 319, 336 319 L 294 319 Z" 
+        fill="#FFFFFF" filter="url(#crispShadow)" />
+</svg>
